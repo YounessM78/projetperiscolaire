@@ -4,9 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import javax.swing.JOptionPane;
+import java.sql.SQLException;
 
-import com.mysql.cj.xdevapi.Statement;
+
 
 public class login {
 	
@@ -14,19 +14,29 @@ public class login {
 	ResultSet Rs = null;
 	PreparedStatement ps=null;
 	
+
 	public static Connection ConnectDB() {
 		
-		try {
-			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-			Connection cnx=DriverManager.getConnection("jdbc:odbc:Database","", "");
-			return cnx;
-		}
-		
-		catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e);
-			return null;
-		}
-		
-	}
+		String url = "jdbc:ucanaccess://Database.accdb";
+
+        try {
+
+            Connection cnx=DriverManager.getConnection(url);
+
+            System.out.println("connexion réussie");
+            return cnx;
+
+
+
+        }
+
+        catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+
+
+        }
+
+    }
 
 }

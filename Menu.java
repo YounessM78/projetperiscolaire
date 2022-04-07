@@ -2,7 +2,6 @@ package vue;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -45,7 +44,7 @@ public class Menu extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Bienvenue nom pr\u00E9nom");
+		JLabel lblNewLabel = new JLabel("Bienvenue ");
 		lblNewLabel.setFont(new Font("Tw Cen MT", Font.PLAIN, 30));
 		lblNewLabel.setBounds(310, 11, 280, 26);
 		contentPane.add(lblNewLabel);
