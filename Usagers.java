@@ -1,3 +1,4 @@
+package Model;
 
 import java.util.*;
 
@@ -9,8 +10,14 @@ public class Usagers extends Personne {
     /**
      * Default constructor
      */
-    public Usagers() {
+    public Usagers(String n,String p) {
+    	n = nom;
+    	p = prenom;
     }
+    
+    public String nom;
+    
+    public String prenom;
 
     /**
      * 
