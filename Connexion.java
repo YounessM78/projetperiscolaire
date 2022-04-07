@@ -215,4 +215,3 @@ public class Connexion extends JDialog {
 	}
 	
 }
-
