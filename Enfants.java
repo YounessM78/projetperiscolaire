@@ -1,5 +1,7 @@
+package Model;
 
 import java.util.*;
+
 
 /**
  * 
@@ -9,19 +11,18 @@ public class Enfants extends Usagers {
     /**
      * Default constructor
      */
-    public Enfants(String n, String c) {
-    	n = Nom;
-    	c = Classe;
+    public Enfants(String n,String p,String classe) {
+    	super(n,p);
+    	this.Classe = classe;
+
     }
-
-    /**
-     * 
-     */
-    public String Nom;
-
-    /**
-     * 
-     */
+    
+    public static Vector<Enfants> listEnfants = new Vector<Enfants>();
+    
+    public static void addEnfant(String n,String p,String classe) {
+    	listEnfants.add(new Enfants(n,p,classe));
+    	System.out.println(listEnfants.size()+"enfants");
+    }
 
     public String Classe;
 
