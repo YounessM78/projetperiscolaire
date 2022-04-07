@@ -1,28 +1,32 @@
+package Model;
 
 import java.util.*;
 
 /**
  * 
  */
-public class Employes_mairie {
+public class Employes_mairie extends Employes{
 
     /**
      * Default constructor
      */
-    public Employes_mairie(String n, String t) {
-    	n = Nom;
-    	t = Tache;
+    public Employes_mairie(String n,String p, String t) {
+    	super(n,p);
+    	this.Tache = t;
     }
 
-    /**
-     * 
-     */
-    public String Nom;
-
+    public static Vector<Employes_mairie> listEmployes_mairie = new Vector<Employes_mairie>();
+    
+    public static void addEmployes_mairie(String n,String p,String tache) {
+    	listEmployes_mairie.add(new Employes_mairie(n,p,tache));
+    	System.out.println(listEmployes_mairie.size()+"employé de mairie");
+    }
     /**
      * 
      */
     public String Tache;
+    
+    
 
     /**
      * 
