@@ -1,4 +1,8 @@
 package vue;
+import Model.Enfants;
+import Model.Employes_cantine;
+import Model.Employes_mairie;
+import Model.Parents;
 
 import java.awt.EventQueue;
 import javax.swing.JButton;
@@ -6,47 +10,46 @@ import javax.swing.JFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import javax.swing.JFrame;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 public class Connexion extends JDialog {
-
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JFrame frame;
-	private javax.swing.JLabel at;
-	private JTextField txtuser;
-	private JTextField txtpass;
+	JTextField txtuser;
+	JTextField txtpass;
 	Connection cnx = null;
 	ResultSet Rs = null;
 	PreparedStatement ps=null;
-
 	/**
 	 * Launch the application.
+	 * @throws SQLException 
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
+
+	public static void main(String[] args) throws SQLException {
+		
+		
+		EventQueue.invokeLater(
+				new Runnable() {
 			public void run() {
 				try {
+					
 					Connexion window = new Connexion();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -55,6 +58,10 @@ public class Connexion extends JDialog {
 			}
 		});
 	}
+	
+	
+
+	
 
 	/**
 	 * Create the application.
@@ -62,12 +69,52 @@ public class Connexion extends JDialog {
 	public Connexion() {
 		initialize();
 	}
+	
+	public void initializeBDD() {
+		Statement statement = null;
+		ResultSet resultat = null;
+		
+		try {
+			statement = cnx.createStatement();
+			System.out.println("OUI");
+			resultat  = statement.executeQuery("SELECT * FROM tabLogin;");
+			System.out.println(resultat.getMetaData().getColumnCount());
+			while (resultat.next()) {
+				System.out.println(resultat.getString("nom")+"nom");
+				String nom = resultat.getString("nom");
+				String prenom = resultat.getString("prenom");
+				String classe = resultat.getString("classe");
+				if(resultat.getInt("autorite")==1) {
+					Enfants.addEnfant(nom, prenom, classe);
+					
+				}else if(resultat.getInt("autorite")==2){
+					
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	public void initialize() {
+		
+			
 		frame = new JFrame();
+		frame.addWindowListener(new WindowAdapter() {
+
+            public void windowOpened(WindowEvent e) {
+                cnx = login.ConnectDB();
+                initializeBDD();
+            }
+        });
+		
+		
+
 		frame.setBounds(100, 100, 488, 294);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -106,61 +153,66 @@ public class Connexion extends JDialog {
 		btnNewButton.addActionListener(new ActionListener() 
 		{
 			
+		
+			
+			
+			
 			public void actionPerformed(ActionEvent arg0)
 			
 			{
-		        try
-		       
-		        {
-		        
-
+			
+				
+				try {
+			
 		         String Sql = "Select * from tabLogin WHERE username ='" +txtuser.getText()+
 		        		 "'and password='"+txtpass.getText()+"'";
 		         
-		                ps = cnx.prepareStatement(Sql);
-		                Rs = ps.executeQuery();
-		                
-		                if (Rs.next())
-		                {
-		                    JOptionPane.showMessageDialog(null, "username and password is Correct");
-		                    Menu s = new Menu();
-		                    s.setVisible(true);
-		                    
-		                    
-		                    
-		                }else {
-		                    JOptionPane.showMessageDialog(null, "invalide username or password" );
-		                    
-		                    
-		                    at.setText("invalid username or password");
-		                }
-		        }
-		      	
 		               
-		        
-		        catch(Exception e){
-		            JOptionPane.showMessageDialog(null, e);
-		        }
-				
+		                 Statement statement = cnx.createStatement();
+						
+		          
+						  Rs = statement.executeQuery(Sql);
+					
+		              
+		                System.out.println("fait");
+		                System.out.println(Rs);
+		               
+		                
+		               
+							if (Rs.next())
+							{
+							    JOptionPane.showMessageDialog(null, "Identifiant et mot de passe correct.");
+							    Menu s = new Menu(3);
+							    s.setVisible(true);
+							    
+							    
+							}
+							
+							else {
+							    JOptionPane.showMessageDialog(null, "Identifiant ou mot de passe incorrect." );
+							    
+
+							}
+				}  catch (SQLException e) {
+							
+							e.printStackTrace();
+						}
+		               
 			}
 			
+			
+			}
 		
-			
-				@SuppressWarnings("unused")
-				
-				private void windowOpened(WindowEvent e) {
-					cnx = login.ConnectDB();
-				}
-			
-		}
 		);
+		
 		
 		btnNewButton.setBounds(164, 160, 133, 28);
 		panel.add(btnNewButton);
 		
 		JLabel at = new JLabel("");
-		at.setBounds(210, 199, 46, 14);
+		at.setBounds(151, 199, 160, 14);
 		panel.add(at);
 	}
 	
 }
+
