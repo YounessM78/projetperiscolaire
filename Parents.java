@@ -1,3 +1,4 @@
+package Model;
 
 import java.util.*;
 
@@ -9,18 +10,18 @@ public class Parents extends Usagers {
     /**
      * Default constructor
      */
-    public Parents(String n, String a) {
-    	n = Nom;
-    	a = Adresse;
+    public Parents(String n, String p,String a) {
+    	super(n,p);
+    	this.Adresse = a;
     }
 
+    public static Vector<Parents> listParents = new Vector<Parents>();
     
-    
-    public String Nom;
-    /**
-     * 
-     */
-    public String Adresse;
+    public static void addParent(String n,String p,String a) {
+    	listParents.add(new Parents(n,p,a));
+    	System.out.println(listParents.size()+"parents");
+    }
+   public String Adresse;
 
     /**
      * 
