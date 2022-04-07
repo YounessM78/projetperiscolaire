@@ -84,11 +84,17 @@ public class Connexion extends JDialog {
 				String nom = resultat.getString("nom");
 				String prenom = resultat.getString("prenom");
 				String classe = resultat.getString("classe");
+				String adresse = resultat.getString("adresse");
+				String tache = resultat.getString("tache");
+				String regime = resultat.getString("regime");
 				if(resultat.getInt("autorite")==1) {
-					Enfants.addEnfant(nom, prenom, classe);
-					
+					Enfants.addEnfant(nom, prenom, classe);	
 				}else if(resultat.getInt("autorite")==2){
-					
+					Parents.addParent(nom, prenom, adresse);
+				}else if(resultat.getInt("autorite")==3) {
+					Employes_cantine.addEmployes_cantine(nom, prenom, tache);
+				}else if(resultat.getInt("autorite")==4) {
+					Employes_mairie.addEmployes_mairie(nom, prenom, tache);
 				}
 			}
 		} catch (Exception e) {
